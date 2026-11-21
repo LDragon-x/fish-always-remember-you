@@ -2,4 +2,6 @@ _models/
 node_modules/
 *.db
 _tmp/
+.famr/
+.famr-demo/
 .future-notes.md

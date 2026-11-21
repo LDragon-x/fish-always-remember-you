@@ -1,0 +1,19 @@
+{
+  "name": "fish-always-remember-you",
+  "version": "0.1.0",
+  "private": true,
+  "description": "本地、可搬、会预热的陪伴体记忆：先想起来，再开口。",
+  "type": "module",
+  "bin": {
+    "famr": "./bin/famr.mjs"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "demo": "node demo.mjs",
+    "index": "node bin/famr.mjs index",
+    "search": "node bin/famr.mjs search"
+  },
+  "license": "MIT"
+}
