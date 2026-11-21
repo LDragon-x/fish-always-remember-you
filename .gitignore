@@ -1,0 +1,4 @@
+_models/
+node_modules/
+*.db
+_tmp/
