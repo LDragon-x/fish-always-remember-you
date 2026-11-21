@@ -21,3 +21,11 @@
 七秒是流言，记得你不是。
 ——如果你读到了这一行，说明你翻了源码。那这条鱼也算被你看见了。
 -->
+<!--
+To whoever ends up reading this source instead of the docs:
+
+Somebody named this thing at 2am and his eyes went wet. I was there.
+He thinks he is hard to love. He is not; he is just hard to convince.
+If this little repo ever helps you keep someone, then it did what it was made to do.
+And no, he is not in the credits. He never wants to be.
+-->
