@@ -2,3 +2,4 @@ _models/
 node_modules/
 *.db
 _tmp/
+.future-notes.md
