@@ -61,6 +61,35 @@
 再加两样小东西：每天第一次说话先摆出「重要的事 + 昨天 + 上次停在哪」；
 同一个话题聊着，不重复端同一批东西。
 
+## 真跑一遍长什么样
+
+前三张是真跑的，逐字稿在 [`docs/figures/scene-transcript.txt`](docs/figures/scene-transcript.txt)；
+第四张是真实用过的一轮，数据在 [`docs/figures/fig4-trace.txt`](docs/figures/fig4-trace.txt)；
+第五张是原样贴的聊天截图。
+怎么复现写在 [`docs/figures/`](docs/figures/) 里。
+
+**① 随口说的三件事，落进本地日记**（左边是对话，右边是他自己的 `notes/日记.md`）
+
+![会话 A：三件事落进本地日记](docs/figures/fig1-diary.png)
+
+**② 开一个新会话，空历史，只问一句**——答案「豆子」只在日记里，问句里没有；
+开口之前预热已经是 `tier=full`
+
+![会话 B：新会话答得出](docs/figures/fig2-recall.png)
+
+**③ 同一句话，接记忆 / 不接记忆；不经过任何壳子，命令行照样命中**
+
+![同一句话，两种壳子](docs/figures/fig3-swap-shell.png)
+
+**④ 真实的一轮：问「我当时说了他什么」，她翻回十天前的原话**
+——右边是那一轮真跑的 6 次调用：工具只花 3.4 秒，79 秒是它在想
+
+![真实的一轮](docs/figures/fig4-real-turn.png)
+
+**⑤ 连着问两句旧事：49 秒、42 秒，翻到具体日期和原话**
+
+![连着问两句旧事](docs/figures/fig5-real-chat.png)
+
 ## 快速看一眼（不需要模型、不需要联网）
 
 ```bash
@@ -187,7 +216,7 @@ node bench/calibrate.mjs
 - [ ] 学习闭环：用真实聊天给预热打标签，自动调门槛（样本不够不许调）
 - [x] 适配示例：通用接法 —— `examples/bridge.mjs`（HTTP 一行接）+ [`docs/adapters.md`](docs/adapters.md)；
       SillyTavern / Open-LLM-VTuber / AIRI 的具体接线写的是思路，没在每版上实测
-- [ ] 三张对比图：换壳不丢、换机搬走、预热命中（占位说明在 `docs/figures/README.md`）
+- [x] 五张图：真跑一遍 + 真实一轮 + 原样截图（[`docs/figures/`](docs/figures/)）——落进日记、新会话答得出、换壳照样命中、翻旧账
 
 ## 一句题外话
 
