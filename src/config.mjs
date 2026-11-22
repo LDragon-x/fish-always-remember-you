@@ -15,6 +15,8 @@ export const DEFAULTS = {
   fullMin: 0.52, // 三档：有把握
   hintMin: 0.48, // 三档：有点把握
   canon: [], // 正典文件名（命中时加权 1.25），例如 ["CORE.md"]
+  exclude: ['AGENTS.md'], // 候选里剔掉的文件名：这类文件本来就每轮在系统提示里，再端一次等于同一张纸递两遍
+  statusFile: '', // 「还差什么 / 还没做 / 下一步」这类问题，直接读这个文件的「还没做」段，不赌检索；例如 HANDOFF.md
   identity: '', // 常驻层的身份一句；留空就跳过
   important: '', // 「重要的事」文件（- 开头的条目取前 6 条）
   digestDir: '', // 每日预热想带上「昨天的记录」时，指向按日期命名的 md 目录
@@ -33,7 +35,9 @@ export function loadConfig(cwd = process.cwd(), overrides = {}) {
   cfg.identity = String(cfg.identity || '')
   cfg.important = cfg.important ? (isAbsolute(String(cfg.important)) ? String(cfg.important) : resolve(cwd, String(cfg.important))) : ''
   cfg.digestDir = cfg.digestDir ? (isAbsolute(String(cfg.digestDir)) ? String(cfg.digestDir) : resolve(cwd, String(cfg.digestDir))) : ''
+  cfg.statusFile = cfg.statusFile ? (isAbsolute(String(cfg.statusFile)) ? String(cfg.statusFile) : resolve(cwd, String(cfg.statusFile))) : ''
   cfg.canon = Array.isArray(cfg.canon) ? cfg.canon.map(String) : []
+  cfg.exclude = Array.isArray(cfg.exclude) ? cfg.exclude.map(String) : []
   for (const key of ['chunkChars', 'maxBytes', 'k', 'fullMin', 'hintMin']) cfg[key] = Number(cfg[key]) || DEFAULTS[key]
   return cfg
 }
