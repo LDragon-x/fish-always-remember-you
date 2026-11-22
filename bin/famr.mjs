@@ -6,6 +6,8 @@
 //   node bin/famr.mjs brief "上次那个约定"     看这一轮该给模型看什么
 //   node bin/famr.mjs prefetch --say "..."     看热身的档位（full/hint/none）
 //   node bin/famr.mjs status                  看索引状态
+//   node bin/famr.mjs export [--out=目录]      把整本日记打包成可搬走的文件夹
+//   node bin/famr.mjs import <目录> [--into=]  校验并还原（sha256 对不上就不落盘）
 //
 // 通用参数：--home=、--notes=、--embed=、--k=、--session=、--json
 import { existsSync, mkdirSync } from 'node:fs'
@@ -16,6 +18,7 @@ import { search } from '../src/search.mjs'
 import { renderBrief } from '../src/brief.mjs'
 import { prefetch } from '../src/prefetch.mjs'
 import { embedAlive } from '../src/embed.mjs'
+import { exportDiary, importDiary } from '../src/portable.mjs'
 
 const argv = process.argv.slice(2)
 const cmd = argv[0] || 'help'
@@ -44,6 +47,8 @@ const say = () => {
   console.log('  brief "…"                 这一轮该给模型看什么（三层）')
   console.log('  prefetch --say="…"        热身的档位（full / hint / none）')
   console.log('  status                    索引状态')
+  console.log('  export [--out=目录]        打包成可搬走的文件夹（带 sha256 清单）')
+  console.log('  import <目录> [--into=…]   校验并还原整本日记')
   console.log('\n参数：--home= .famr / --notes= notes / --embed= http://127.0.0.1:8791')
 }
 
@@ -113,7 +118,28 @@ switch (cmd) {
   case 'brief': await cmdBrief(); break
   case 'prefetch': await cmdPrefetch(); break
   case 'status': cmdStatus(); break
+  case 'export': await cmdExport(); break
+  case 'import': await cmdImport(); break
   case '--help':
   case 'help':
   default: say(); break
+}
+
+async function cmdExport() {
+  const r = exportDiary(cfg, flags.out ? String(flags.out) : '')
+  console.log(`导出：${r.dir}`)
+  console.log(`${r.files} 个文件 / ${(r.bytes / 1024).toFixed(0)} KB，附 manifest.json（逐文件 sha256）`)
+  console.log(`搬走它；到新地方：node bin/famr.mjs import <那个目录> --into=新的工作区`)
+}
+
+async function cmdImport() {
+  if (!text) { console.error('用法：import <导出目录> [--into=目标目录] [--force]'); process.exit(1) }
+  const r = importDiary(text, flags.into ? String(flags.into) : '', { force: !!flags.force })
+  if (r.missing.length || r.mismatch.length) {
+    console.error(`校验没过：缺 ${r.missing.length} 个、坏 ${r.mismatch.length} 个，一个都没写。`)
+    for (const p of [...r.missing.slice(0, 5), ...r.mismatch.slice(0, 5)]) console.error('  - ' + p)
+    process.exit(1)
+  }
+  console.log(`还原到 ${r.dir}：${r.files} 个文件`)
+  console.log('下一步：进那个目录跑 node bin/famr.mjs status（索引可直接用，不用重建）')
 }

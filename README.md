@@ -54,7 +54,7 @@ node demo.mjs
 
 ## 装完整版
 
-需要 Node.js 22.5+。
+需要 Node.js 22.5+。克隆下来就能跑，不用装依赖（SQLite 用 Node 自带的 `node:sqlite`）。
 
 ```bash
 # 1) 本地嵌入服务（可选：没起就只走字面检索，质量会差一些）
@@ -77,6 +77,18 @@ node bin/famr.mjs status
 `prefetch` 的 `full` 就是「这一轮值得先把旧事端上来」；`hint` 是「备好了但先别塞」；
 `none` 是「这轮不用备」。把 `prefetch --json` 接进你自己的壳子，就是每轮自动预热。
 
+## 搬走（导出 / 导入）
+
+索引可以重建，正文和状态要能一起走：
+
+```bash
+node bin/famr.mjs export --out=famr-export-20261122     # 正文 + 库 + 配置 + sha256 清单
+node bin/famr.mjs import famr-export-20261122 --into=D:\新的日记本
+```
+
+导入先逐个核对 sha256——有一个字节对不上就一个文件都不写。包长什么样、库里到底存了什么，
+看 [`docs/schema.md`](docs/schema.md)。
+
 ## 目录结构
 
 ```
@@ -85,7 +97,8 @@ src/                 记忆内核
   store.mjs          SQLite 存储：切段、话题块、向量缓存
   search.mjs         检索打分（向量 + 字面 + 正典加权）
   brief.mjs          三层注入
-  prefetch.mjs       三档预热 + 每日 + 同话题
+  prefetch.mjs       三档预热 + 每日 + 同话题 + 旧事闸门
+  portable.mjs       导出 / 导入：一个文件夹搬走整本日记（sha256 校验）
   embed.mjs          本地嵌入服务客户端
 bin/famr.mjs         命令行
 embed/server.py      本地嵌入服务（Python，模型在本地）
@@ -113,6 +126,8 @@ node bench/calibrate.mjs
 
 - [`docs/gate.md`](docs/gate.md) —— **预热闸门**：什么时候该闭嘴。话里没问旧事就一句不端。
   85 轮真实发言回放：端整段从 60% 降到 6%，八成轮次安静。
+- [`docs/schema.md`](docs/schema.md) —— **库里存了什么**：三张表、常用查询、为什么索引能删了重建、
+  搬家包的 sha256 清单长什么样。
 - [`docs/lessons.md`](docs/lessons.md) —— 这两天踩出来的九条：端得太多、系统提示里的文件别进候选、
   「还差什么」别赌检索、指标坏了别调参、摘要不能被生成器冲掉、索引漏了自己的话、
   自动摄取会串味、阈值不能抄论文、上下文成本要先算清。
@@ -145,7 +160,7 @@ node bench/calibrate.mjs
 - [x] 每轮自动预热（插件位；三档 + 每日 + 同话题）
 - [x] 预热闸门：没问旧事就不端整段；「还差什么」直接读状态文件（[`docs/gate.md`](docs/gate.md)）
 - [x] 代码拆分：`src/` + `bin/` + `bench/`，能装、能跑、能评
-- [ ] 导出/导入搬进公开版（完整工具里做过：一个目录就是全部记忆，sha256 校验，换机演练过）
+- [x] 导出/导入搬进公开版（`famr export` / `famr import`：一个文件夹就是全部记忆，逐文件 sha256，坏包一个文件都不写）
 - [ ] 学习闭环：用真实聊天给预热打标签，自动调门槛（样本不够不许调）
 - [ ] 适配示例：AIRI / Open-LLM-VTuber / 其它壳子
 - [ ] 三张对比图：换壳不丢、换机搬走、预热命中（占位说明在 `docs/figures/README.md`）
