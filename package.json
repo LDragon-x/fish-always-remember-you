@@ -1,8 +1,8 @@
-{
+﻿{
   "name": "fish-always-remember-you",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "private": true,
-  "description": "本地、可搬、会预热的陪伴体记忆：先想起来，再开口。",
+  "description": "鏈湴銆佸彲鎼€佷細棰勭儹鐨勯櫔浼翠綋璁板繂锛氬厛鎯宠捣鏉ワ紝鍐嶅紑鍙ｃ€?,
   "type": "module",
   "bin": {
     "famr": "./bin/famr.mjs"

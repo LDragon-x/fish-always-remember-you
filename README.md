@@ -121,6 +121,7 @@ src/                 记忆内核
   portable.mjs       导出 / 导入：一个文件夹搬走整本日记（sha256 校验）
   embed.mjs          本地嵌入服务客户端
 bin/famr.mjs         命令行
+examples/bridge.mjs  给任何壳子的最小接入口：POST /prefetch 拿这一轮该备的旧事
 embed/server.py      本地嵌入服务（Python，模型在本地）
 bench/               假语料、评测、阈值校准
 demo.mjs             零模型演示
@@ -148,6 +149,8 @@ node bench/calibrate.mjs
   85 轮真实发言回放：端整段从 60% 降到 6%，八成轮次安静。
 - [`docs/schema.md`](docs/schema.md) —— **库里存了什么**：三张表、常用查询、为什么索引能删了重建、
   搬家包的 sha256 清单长什么样。
+- [`docs/adapters.md`](docs/adapters.md) —— **接到你自己的壳子上**：HTTP 桥 + SillyTavern /
+  Open-LLM-VTuber / AIRI 的接线思路（只有 CLI 和桥有回归，壳子的接法以你那个版本的文档为准）。
 - [`docs/lessons.md`](docs/lessons.md) —— 这两天踩出来的九条：端得太多、系统提示里的文件别进候选、
   「还差什么」别赌检索、指标坏了别调参、摘要不能被生成器冲掉、索引漏了自己的话、
   自动摄取会串味、阈值不能抄论文、上下文成本要先算清。
@@ -182,7 +185,8 @@ node bench/calibrate.mjs
 - [x] 代码拆分：`src/` + `bin/` + `bench/`，能装、能跑、能评
 - [x] 导出/导入搬进公开版（`famr export` / `famr import`：一个文件夹就是全部记忆，逐文件 sha256，坏包一个文件都不写）
 - [ ] 学习闭环：用真实聊天给预热打标签，自动调门槛（样本不够不许调）
-- [ ] 适配示例：AIRI / Open-LLM-VTuber / 其它壳子
+- [x] 适配示例：通用接法 —— `examples/bridge.mjs`（HTTP 一行接）+ [`docs/adapters.md`](docs/adapters.md)；
+      SillyTavern / Open-LLM-VTuber / AIRI 的具体接线写的是思路，没在每版上实测
 - [ ] 三张对比图：换壳不丢、换机搬走、预热命中（占位说明在 `docs/figures/README.md`）
 
 ## 一句题外话
