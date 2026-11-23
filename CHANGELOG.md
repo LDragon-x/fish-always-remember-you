@@ -2,7 +2,7 @@
 
 ## 0.5.0 — 2026-11-22
 
-- **接别人**：新增 `examples/bridge.mjs`——常驻一个只监听本机的 HTTP 口，`POST /prefetch` 返回这一轮该备的旧事，
+- **接别人**：新增 `examples/bridge.mjs`：常驻一个只监听本机的 HTTP 口，`POST /prefetch` 返回这一轮该备的旧事，
   任何聊天壳子二十行接上；新增 [`docs/adapters.md`](docs/adapters.md)（SillyTavern / Open-LLM-VTuber / AIRI 的接线思路，
   诚实标注只有 CLI 与桥有回归）。
 - **闸门补词**：回归里抓到「约好 / 说好 / 来着」这种问旧事的说法漏在外面，补进词表（`bench/gate.mjs` 16/16）。
@@ -10,7 +10,7 @@
 
 ## 0.4.0 — 2026-11-22
 
-- **搬家**：`famr export` / `famr import`——整本日记打成一个文件夹（正文 + 库 + 配置 + 逐文件 sha256 清单），
+- **搬家**：`famr export` / `famr import`：整本日记打成一个文件夹（正文 + 库 + 配置 + 逐文件 sha256 清单），
   导入先校验，坏一个字节就一个文件都不写。坏包、非空目录都有回归覆盖。
 - **文档**：[`docs/schema.md`](docs/schema.md) 讲清 SQLite 里存了什么（三张表、常用查询、为什么索引能删了重建）。
 - **回归**：`bench/portable.mjs`，建索引 → 导出 → 校验 → 还原 → 核对 → 故意弄坏再拒收，11/11 通过。

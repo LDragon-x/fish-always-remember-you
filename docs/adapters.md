@@ -41,7 +41,7 @@ const extra = [r.daily?.text, r.block].filter(Boolean).join('\n\n')
 const systemPrompt = extra ? `${baseSystem}\n\n${extra}` : baseSystem
 ```
 
-`tier === 'none'` 是正常结果——说明这轮不需要备旧事，**别硬塞**。
+`tier === 'none'` 是正常结果，说明这轮不需要备旧事，**别硬塞**。
 
 ## SillyTavern
 
@@ -52,7 +52,7 @@ system 消息插进这条请求。
 - 调 `http://127.0.0.1:8787/prefetch`（浏览器对 localhost 的跨域请求，桥已经放开了 `access-control-allow-origin`）；
 - 把 `block` 塞进 `extension_prompt` 或临时 system 消息，不要改角色卡。
 
-注意：SillyTavern 自带世界书/记忆扩展，两者不冲突——世界书管设定，famr 管「你们之间发生过什么」。
+注意：SillyTavern 自带世界书/记忆扩展，两者不冲突：世界书管设定，famr 管「你们之间发生过什么」。
 
 ## Open-LLM-VTuber
 
@@ -81,5 +81,5 @@ node bin/famr.mjs prefetch --say="她刚才那句话" --json
 
 ## 一条底线
 
-壳子换得越勤，这套东西越值钱——因为记忆不在壳子里。
+壳子换得越勤，这套东西越值钱，因为记忆不在壳子里。
 **正文永远是你的 markdown**，索引删了能重建，搬家一个文件夹。
