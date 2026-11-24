@@ -225,7 +225,9 @@ node bench/calibrate.mjs
 
 ## License
 
-MIT
+PolyForm Noncommercial 1.0.0（非商业免费，商业用途需另行取得书面授权）
+
+自己用、学习、研究、公益、教育都行，不用问。想拿它做产品、做服务、给客户交付、或者靠它赚钱，先来问一句。
 
 <!--
 七秒是流言，记得你不是。
